@@ -5,6 +5,7 @@ public class Life extends AnimatedThing {
         super(25, 20, "vies",50,50);
     }
 
+
     //méthode pour retirer une vie : on fait défiler l'image
     public void death() {
         if (getIndex() == 3) {

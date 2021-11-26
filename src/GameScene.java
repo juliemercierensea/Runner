@@ -13,8 +13,8 @@ public class GameScene extends Scene {
     private Hero hero;
     private Foe monstre;
     private Life life;
-
-    private int numberOfLives;
+    private Munition munition;
+    protected int numberOfLives=3;
 
     Camera camera = new Camera(0, 0);
 
@@ -31,6 +31,7 @@ public class GameScene extends Scene {
     public Foe getMonstre() { return monstre; }
     public Life getLife() {return life;}
     public static staticThing getGameOver() { return gameover; }
+    public Munition getMunition() {return munition;}
 
     //setters
     public static void setBackgroundleft(staticThing backgroundleft) {
@@ -42,6 +43,8 @@ public class GameScene extends Scene {
     public void setMonstre(Foe monstre) { this.monstre = monstre;}
     public void setLife(Life life) {this.life = life;}
     public static void setGameover(staticThing gameover) {GameScene.gameover = gameover;}
+    public void setMunition(Munition munition) {this.munition = munition;}
+
     //constructeur
     public GameScene(Parent parent, double width, double height, boolean depthBuffer) {
 
@@ -49,17 +52,17 @@ public class GameScene extends Scene {
 
         this.setBackgroundleft(new staticThing(0, 0, "desert"));
         this.setBackgroundright(new staticThing(800, 0, "desert"));
-        this.setGameover(new staticThing(50, 0, "gameover"));
+        this.setGameover(new staticThing(900, 0, "gameover"));
 
         this.getBackgroundleft().getimageView().setViewport(new Rectangle2D(0, 0, this.getBackgroundleft().getimageView().getFitHeight(), this.getBackgroundleft().getimageView().getFitWidth()));
         this.getBackgroundright().getimageView().setViewport(new Rectangle2D(0, 0, this.getBackgroundright().getimageView().getFitHeight(), this.getBackgroundright().getimageView().getFitWidth()));
 
-        //this.getGameOver().getimageView().setViewport(new Rectangle2D(0, 0, this.getGameOver().getimageView().getFitHeight(), this.getGameOver().getimageView().getFitWidth()));
-
         this.hero = new Hero();
         this.monstre = new Foe();
         this.life = new Life();
-        numberOfLives = 3;
+        this.munition = new Munition();
+        munition.setIndex(-1);
+        munition.shoot();
 
         //Animation
         AnimationTimer timer = new AnimationTimer() {
@@ -77,29 +80,35 @@ public class GameScene extends Scene {
                 if (hero.isFallOk() == true) {
                     hero.fall();
                 }
-                if (collision()==true){
-                    if (numberOfLives==0){
-                        //gameover.showgameover(); là ya un pb, ça affiche direct le gameover alors qu'on devrait encore avoir 2vies
-                        //numberOfLives=3;}
-                        ;}
-                    else{
-                    numberOfLives-=1;}
-                    System.out.println(numberOfLives);
-                }
+
                 if (hero.isHitOk()==true){
                     hero.hit();
-
                     if (collision()==true){
-                        monstre.kill();// monstre qui disparaît
                         hero.setHitOk(false); //à mettre autrement parce qu'on ne passe qu'une seule fois dans la boucle
-                                               // dc le monstre ne se décale que d'une case
+                        monstre.update();     // dc le monstre ne se décale que d'une case
+                        monstre.setInvincible(true);
+                        munition.shoot();
                     }
                 }
-
-                if ((hero.isInvincible()==false)&(collision()==true)){
+                /*if ((hero.isInvincible()==false)&(collision()==true)&(hero.isHitOk()==true)&(monstre.isInvincible()==false)){
+                    munition.shoot();
+                    System.out.println("Munition en moins");
+                }*/
+                if ((hero.isInvincible()==false)&(collision()==true)&(hero.isHitOk()==false)&(monstre.isInvincible()==false)){
                    life.death();
+                   System.out.println(" Une vie en moins !");
                    hero.setInvincible(true);
-                }
+                    if (numberOfLives==1){
+                        gameover.getimageView().setX(0);
+                        gameover.setX(0);
+                        gameover.showgameover();
+                        numberOfLives=3;
+                        this.stop();}
+
+                    else{
+                        numberOfLives-=1;}
+                    }
+
                 if (time - lastUpdate >= 100_000_000) {
                     hero.update();
                     monstre.update();
@@ -146,11 +155,10 @@ public class GameScene extends Scene {
 
     //méthode collision
     private boolean collision(){
-        if((hero.getX()+70 > monstre.getX())&(hero.getX()<monstre.getX()+65)&(hero.getY()+80>monstre.getY())){
+        if((hero.getX()+70 > monstre.getX())&(hero.getX()<monstre.getX()+55)&(hero.getY()+80>monstre.getY())){
             System.out.println("collision");
             return true;
         }
         //System.out.println("Keep running");
         return false;}
 }
-//hero.getHitBox().intersect(monstre.getHitBox) (on détecte si les boites des persos se touchent ou pas)

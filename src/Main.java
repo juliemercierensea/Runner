@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Bonhomme qui court");
+        primaryStage.setTitle("Runner giga stylé");
         Group root = new Group();
         Pane pane = new Pane(root);
         GameScene theScene = new GameScene(pane, 600, 400, true);
@@ -22,6 +22,7 @@ public class Main extends Application {
         pane.getChildren().add(theScene.getHero().getImageView());
         pane.getChildren().add(theScene.getMonstre().getImageView());
         pane.getChildren().add(theScene.getLife().getImageView());
+        pane.getChildren().add(theScene.getMunition().getImageView());
 
         /*Image spriteSheet = new Image("heros.png");
         ImageView sprite = new ImageView(spriteSheet);
@@ -31,7 +32,6 @@ public class Main extends Application {
         root.getChildren().add(sprite);*/
 
         primaryStage.setScene(theScene);
-
         primaryStage.show();
     }
     public static void main(String[] args) {
