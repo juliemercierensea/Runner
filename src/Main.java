@@ -24,13 +24,6 @@ public class Main extends Application {
         pane.getChildren().add(theScene.getLife().getImageView());
         pane.getChildren().add(theScene.getMunition().getImageView());
 
-        /*Image spriteSheet = new Image("heros.png");
-        ImageView sprite = new ImageView(spriteSheet);
-        sprite.setViewport(new Rectangle2D(20,0,65,100));
-        sprite.setX(20);
-        sprite.setY(245);
-        root.getChildren().add(sprite);*/
-
         primaryStage.setScene(theScene);
         primaryStage.show();
     }

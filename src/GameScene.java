@@ -84,16 +84,13 @@ public class GameScene extends Scene {
                 if (hero.isHitOk()==true){
                     hero.hit();
                     if (collision()==true){
-                        hero.setHitOk(false); //à mettre autrement parce qu'on ne passe qu'une seule fois dans la boucle
-                        monstre.update();     // dc le monstre ne se décale que d'une case
+                        hero.setHitOk(false);
+                        monstre.update();
                         monstre.setInvincible(true);
                         munition.shoot();
                     }
                 }
-                /*if ((hero.isInvincible()==false)&(collision()==true)&(hero.isHitOk()==true)&(monstre.isInvincible()==false)){
-                    munition.shoot();
-                    System.out.println("Munition en moins");
-                }*/
+
                 if ((hero.isInvincible()==false)&(collision()==true)&(hero.isHitOk()==false)&(monstre.isInvincible()==false)){
                    life.death();
                    System.out.println(" Une vie en moins !");

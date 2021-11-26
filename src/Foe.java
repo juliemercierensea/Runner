@@ -5,16 +5,8 @@ public class Foe extends AnimatedThing {
             super(500,245,"monstre",50,50);
         }
 
-        private boolean Invincible=false;
+    private boolean Invincible=false;
     private int invincibleIndex=0;
-
-    public boolean isBlink() {return blink;
-    }
-
-    public void setBlink(boolean blink) {
-        this.blink = blink;
-    }
-
     private boolean blink;
 
     //getters et setters
@@ -22,7 +14,8 @@ public class Foe extends AnimatedThing {
     public int getInvincibleIndex() { return invincibleIndex;}
     public void setInvincible(boolean invincible) { Invincible = invincible;}
     public void setInvincibleIndex(int invincibleIndex) { this.invincibleIndex = invincibleIndex;}
-
+    public void setBlink(boolean blink) {this.blink = blink;}
+    public boolean isBlink() {return blink;}
 
     //méthode course
     public void update() {
@@ -57,6 +50,5 @@ public class Foe extends AnimatedThing {
                 this.getImageView().setViewport(new Rectangle2D(0, 0, 1, 1));
             }
         }
-
     }
 }
